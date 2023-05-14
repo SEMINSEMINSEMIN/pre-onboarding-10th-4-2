@@ -1,0 +1,24 @@
+branchName: short
+autoCloseIssue: true
+commentMessage: "Branch ${branchName} created for issue: ${issue.title}"
+openPR: true
+copyIssueDescriptionToPR: true
+copyIssueLabelsToPR: true
+copyIssueAssigneeToPR: true
+copyIssueProjectsToPR: true
+copyIssueMilestoneToPR: true
+branches:
+  - label: docs
+    prefix: docs/
+  - label: bug
+    prefix: bug/
+  - label: etc
+    prefix: etc/
+  - label: feat
+    prefix: feat/
+  - label: markup
+    prefix: markup/
+  - label: refactor
+    prefix: refactor/
+  - label: style
+    prefix: style/
