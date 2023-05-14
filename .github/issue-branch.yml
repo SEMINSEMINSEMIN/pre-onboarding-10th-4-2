@@ -8,17 +8,21 @@ copyIssueAssigneeToPR: true
 copyIssueProjectsToPR: true
 copyIssueMilestoneToPR: true
 branches:
-  - label: docs
-    prefix: docs/
-  - label: bug
-    prefix: bug/
-  - label: etc
-    prefix: etc/
   - label: feat
     prefix: feat/
-  - label: markup
-    prefix: markup/
-  - label: refactor
-    prefix: refactor/
+  - label: update
+    prefix: update/
+  - label: fix
+    prefix: fix/
+  - label: docs
+    prefix: docs/
   - label: style
     prefix: style/
+  - label: design
+    prefix: design/
+  - label: refactor
+    prefix: refactor/
+  - label: test
+    prefix: test/
+  - label: chore
+    prefix: chore/
