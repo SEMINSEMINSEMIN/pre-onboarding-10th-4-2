@@ -1,3 +1,4 @@
+import { FaSpinner } from "react-icons/fa";
 import React, { useState, useRef, useEffect } from "react";
 import { TodoDropDownPropsType } from "../types/todo";
 import { MAX_SUGGESTIONS } from "../constants";
@@ -11,6 +12,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
   const [recommendResult, setRecommendResult] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const contRef = useRef<HTMLDivElement>(null);
   const target = useRef(null);
 
@@ -35,12 +37,24 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
 
       if (!isLastPage) {
         console.info("더 많은 데이터 요청");
-        const { data } = await searchRecommendation(recommendData.q, page + 1);
-        if (data.result.length) {
-          setPage((prevPage) => prevPage + 1);
-          setRecommendResult((prevResult) => [...prevResult, ...data.result]);
-        } else {
-          setIsLastPage(true);
+
+        try {
+          setIsLoading(true);
+          const { data } = await searchRecommendation(
+            recommendData.q,
+            page + 1
+          );
+          setIsLoading(false);
+          if (data.result.length) {
+            setPage((prevPage) => prevPage + 1);
+            setRecommendResult((prevResult) => [...prevResult, ...data.result]);
+          } else {
+            setIsLastPage(true);
+          }
+        } catch (error) {
+          setIsLoading(false);
+          console.error(error);
+          alert("something went wrong");
         }
       }
     };
@@ -65,8 +79,18 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
     <div className="dropdown-container" ref={contRef}>
       <ul>
         {recommendList}
-        {inpText && recommendData && recommendData.total >= MAX_SUGGESTIONS && (
-          <li ref={target}>observe</li>
+        {isLoading ? (
+          <FaSpinner
+            className="spinner"
+            aria-label="Loading More Data"
+            role="status"
+          />
+        ) : (
+          inpText &&
+          recommendData &&
+          recommendData.total >= MAX_SUGGESTIONS && (
+            <li ref={target}>observe</li>
+          )
         )}
       </ul>
     </div>
