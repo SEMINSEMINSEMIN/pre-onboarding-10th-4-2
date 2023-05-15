@@ -25,3 +25,18 @@ export type TodoItemPropsType = {
   setTodos: SetTodosType;
   setInpFocus: SetFocusType;
 };
+
+type RecommendDataType = {
+  q: string;
+  result: string[];
+  qty: number;
+  total: number;
+  page: number;
+  limit: number;
+};
+
+export type TodoDropDownPropsType = {
+  recommendData: RecommendDataType | null;
+  handleDropDownClick: (item: string) => Promise<void>;
+  inpText: string;
+};
