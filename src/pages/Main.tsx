@@ -6,8 +6,10 @@ import TodoList from "../components/TodoList";
 import { getTodoList } from "../api/todo";
 import useFocus from "../hooks/useFocus";
 
+import { TodoItemType } from "../types/todo";
+
 const Main = () => {
-  const [todoListData, setTodoListData] = useState([]);
+  const [todoListData, setTodoListData] = useState<TodoItemType[]>([]);
   const { ref, setFocus } = useFocus();
 
   useEffect(() => {

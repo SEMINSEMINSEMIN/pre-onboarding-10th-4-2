@@ -1,6 +1,11 @@
 import TodoItem from "./TodoItem";
+import { TodoListPropsType } from "../types/todo";
 
-const TodoList = ({ todos, setTodos, setInpFocus }) => {
+const TodoList: React.FC<TodoListPropsType> = ({
+  todos,
+  setTodos,
+  setInpFocus,
+}) => {
   return todos.length ? (
     <ul>
       {todos.map(({ id, title }) => (
