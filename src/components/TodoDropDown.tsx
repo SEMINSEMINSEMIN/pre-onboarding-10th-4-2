@@ -11,6 +11,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
   const [recommendResult, setRecommendResult] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
+  const contRef = useRef<HTMLDivElement>(null);
   const target = useRef(null);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
       : setRecommendResult([]);
     setPage(1);
     setIsLastPage(false);
+    contRef.current && contRef.current.scrollTo(0, 0);
   }, [recommendData, inpText]);
 
   useEffect(() => {
@@ -60,7 +62,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
   ));
 
   return (
-    <div className="dropdown-container">
+    <div className="dropdown-container" ref={contRef}>
       <ul>
         {recommendList}
         {inpText && recommendData && recommendData.total >= MAX_SUGGESTIONS && (
