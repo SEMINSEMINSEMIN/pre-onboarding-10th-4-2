@@ -29,6 +29,20 @@ body {
   padding: 8rem 10px 4rem;
 }
 
+.header-container {
+  padding: 20px 0;
+  line-height: 1.5em;
+}
+
+.h1-text {
+  margin-bottom: 2rem;
+  font-size: 6rem;
+  font-weight: 600;
+  line-height: 1em;
+  color: #ececec;
+  text-align: center;
+}
+
 .form-container {
   width: 100%;
   margin-bottom: 20px;
