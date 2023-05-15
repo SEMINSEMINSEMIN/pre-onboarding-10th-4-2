@@ -59,7 +59,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
           disabled={isLoading}
         />
         {!isLoading ? (
-          <button className="input-submit" type="submit">
+          <button className="input-submit" type="submit" aria-label="Add Item">
             <FaPlusCircle className="btn-plus" />
           </button>
         ) : (
