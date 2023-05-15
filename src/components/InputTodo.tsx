@@ -63,7 +63,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             <FaPlusCircle className="btn-plus" />
           </button>
         ) : (
-          <FaSpinner className="spinner" />
+          <FaSpinner className="spinner" aria-label="Loading" role="status" />
         )}
       </form>
     );
