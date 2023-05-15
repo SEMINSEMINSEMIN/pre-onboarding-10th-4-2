@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 
 import { deleteTodo } from "../api/todo";
 
-const TodoItem = ({ id, title, setTodos }) => {
+const TodoItem = ({ id, title, setTodos, setInpFocus }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRemoveTodo = useCallback(async () => {
@@ -17,8 +17,9 @@ const TodoItem = ({ id, title, setTodos }) => {
       alert("Something went wrong.");
     } finally {
       setIsLoading(false);
+      setInpFocus();
     }
-  }, [id, setTodos]);
+  }, [id, setTodos, setInpFocus]);
 
   return (
     <li className="item">
