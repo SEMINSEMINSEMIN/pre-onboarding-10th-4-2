@@ -70,4 +70,4 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
   }
 );
 
-export default InputTodo;
+export default React.memo(InputTodo);
