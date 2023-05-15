@@ -32,7 +32,7 @@ const TodoItem: React.FC<TodoItemPropsType> = ({
       <span>{title}</span>
       <div className="item-option">
         {!isLoading ? (
-          <button onClick={() => handleRemoveTodo()}>
+          <button onClick={() => handleRemoveTodo()} aria-label="Delete Item">
             <FaTrash className="btn-trash" />
           </button>
         ) : (
