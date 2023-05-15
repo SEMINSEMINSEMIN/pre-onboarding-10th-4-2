@@ -10,7 +10,7 @@ const useDebounce = (
 ): void => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      value.trim() && callback(value);
+      callback(value);
     }, delay);
 
     return () => {

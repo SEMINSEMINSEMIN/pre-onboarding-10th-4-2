@@ -7,6 +7,8 @@ import React, {
   Ref,
 } from "react";
 
+import TodoDropDown from "./TodoDropDown";
+
 import { createTodo } from "../api/todo";
 import { searchRecommendation } from "../api/search";
 
@@ -18,17 +20,23 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
   ({ setTodos, setFocus }, ref: Ref<HTMLInputElement>) => {
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [recommendData, setRecommendData] = useState(null);
 
     useEffect(() => {
       setFocus();
     }, [setFocus]);
 
     const showRecommendation = useCallback(async (text: string) => {
-      const { data: recommendData } = await searchRecommendation(text, 1);
+      if (text.trim()) {
+        const { data: recommendData } = await searchRecommendation(text, 1);
+        setRecommendData(recommendData);
+        return;
+      }
 
-      // TODO: recommendData를 드롭다운에 보여줘야 함.
-      // 아래 코드 삭제 예정
-      console.info(recommendData);
+      if (text.length === 0) {
+        setRecommendData(null);
+        return;
+      }
     }, []);
 
     useDebounce(inputText, showRecommendation);
@@ -67,23 +75,30 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
     );
 
     return (
-      <form className="form-container" onSubmit={handleSubmit}>
-        <input
-          className="input-text"
-          placeholder="Add new todo..."
-          ref={ref}
-          value={inputText}
-          onChange={handleInpChange}
-          disabled={isLoading}
-        />
-        {!isLoading ? (
-          <button className="input-submit" type="submit" aria-label="Add Item">
-            <FaPlusCircle className="btn-plus" />
-          </button>
-        ) : (
-          <FaSpinner className="spinner" aria-label="Loading" role="status" />
-        )}
-      </form>
+      <>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <input
+            className="input-text"
+            placeholder="Add new todo..."
+            ref={ref}
+            value={inputText}
+            onChange={handleInpChange}
+            disabled={isLoading}
+          />
+          {!isLoading ? (
+            <button
+              className="input-submit"
+              type="submit"
+              aria-label="Add Item"
+            >
+              <FaPlusCircle className="btn-plus" />
+            </button>
+          ) : (
+            <FaSpinner className="spinner" aria-label="Loading" role="status" />
+          )}
+        </form>
+        <TodoDropDown recommendData={recommendData} />
+      </>
     );
   }
 );
