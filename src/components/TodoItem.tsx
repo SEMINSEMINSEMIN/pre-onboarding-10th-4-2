@@ -16,13 +16,13 @@ const TodoItem: React.FC<TodoItemPropsType> = ({
     try {
       setIsLoading(true);
       await deleteTodo(id);
+      setIsLoading(false);
 
       setTodos((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
       console.error(error);
       alert("Something went wrong.");
     } finally {
-      setIsLoading(false);
       setInpFocus();
     }
   }, [id, setTodos, setInpFocus]);
