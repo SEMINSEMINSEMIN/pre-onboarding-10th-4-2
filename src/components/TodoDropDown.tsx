@@ -6,6 +6,7 @@ import { searchRecommendation } from "../api/search";
 const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
   recommendData,
   handleDropDownClick,
+  inpText,
 }) => {
   const [recommendResult, setRecommendResult] = useState<string[]>([]);
   const [page, setPage] = useState(1);
@@ -13,12 +14,12 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
   const target = useRef(null);
 
   useEffect(() => {
-    recommendData
+    inpText && recommendData
       ? setRecommendResult(recommendData.result)
       : setRecommendResult([]);
     setPage(1);
     setIsLastPage(false);
-  }, [recommendData]);
+  }, [recommendData, inpText]);
 
   useEffect(() => {
     const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
@@ -31,7 +32,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
       if (!isIntersecting) return;
 
       if (!isLastPage) {
-        console.info("요청");
+        console.info("더 많은 데이터 요청");
         const { data } = await searchRecommendation(recommendData.q, page + 1);
         if (data.result.length) {
           setPage((prevPage) => prevPage + 1);
@@ -62,7 +63,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
     <div className="dropdown-container">
       <ul>
         {recommendList}
-        {recommendData && recommendData.total >= MAX_SUGGESTIONS && (
+        {inpText && recommendData && recommendData.total >= MAX_SUGGESTIONS && (
           <li ref={target}>observe</li>
         )}
       </ul>

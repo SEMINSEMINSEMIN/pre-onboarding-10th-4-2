@@ -30,12 +30,8 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
       if (text.trim()) {
         const { data: recommendData } = await searchRecommendation(text, 1);
         setRecommendData(recommendData);
-        return;
-      }
-
-      if (text.length === 0) {
+      } else {
         setRecommendData(null);
-        return;
       }
     }, []);
 
@@ -117,6 +113,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
         <TodoDropDown
           recommendData={recommendData}
           handleDropDownClick={handleDropDownClick}
+          inpText={inputText}
         />
       </>
     );
