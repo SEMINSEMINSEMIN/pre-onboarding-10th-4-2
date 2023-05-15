@@ -9,6 +9,7 @@ import React, {
 
 import { createTodo } from "../api/todo";
 import { InputTodoPropsType } from "../types/todo";
+import { searchRecommendation } from "../api/search";
 
 const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
   ({ setTodos, setFocus }, ref: Ref<HTMLInputElement>) => {
@@ -29,6 +30,14 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
           if (!trimmed) {
             return alert("Please write something");
           }
+
+          // Search API 작동 확인용 코드 시작: 추후 삭제 예정
+          const { data: recommendData } = await searchRecommendation(
+            "lorem",
+            1
+          );
+          console.info(recommendData.result);
+          // Search API 작동 확인용 코드 끝
 
           const newItem = { title: trimmed };
           const { data } = await createTodo(newItem);
