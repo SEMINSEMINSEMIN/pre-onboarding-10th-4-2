@@ -36,7 +36,11 @@ const TodoItem: React.FC<TodoItemPropsType> = ({
             <FaTrash className="btn-trash" />
           </button>
         ) : (
-          <FaSpinner className="spinner" />
+          <FaSpinner
+            className="spinner"
+            aria-label="On Deleting"
+            role="status"
+          />
         )}
       </div>
     </li>
