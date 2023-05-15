@@ -45,6 +45,23 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
       setInputText(e.target.value);
     };
 
+    const handleDropDownClick = async (item: string) => {
+      setInputText("");
+      const newItem = { title: item };
+      try {
+        setIsLoading(true);
+        const { data } = await createTodo(newItem);
+
+        if (data) {
+          return setTodos((prev) => [...prev, data]);
+        }
+      } catch (error) {
+        alert("Something went wrong.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const handleSubmit = useCallback(
       async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -97,7 +114,10 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             <FaSpinner className="spinner" aria-label="Loading" role="status" />
           )}
         </form>
-        <TodoDropDown recommendData={recommendData} />
+        <TodoDropDown
+          recommendData={recommendData}
+          handleDropDownClick={handleDropDownClick}
+        />
       </>
     );
   }

@@ -37,4 +37,5 @@ type RecommendDataType = {
 
 export type TodoDropDownPropsType = {
   recommendData: RecommendDataType | null;
+  handleDropDownClick: (item: string) => Promise<void>;
 };
