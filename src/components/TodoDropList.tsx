@@ -9,7 +9,11 @@ const TodoDropList: React.FC<TodoDropListPropsType> = ({
   const recommendList =
     recommendResult.length && originText
       ? recommendResult.map((item: string, idx: number) => (
-          <li key={idx} onClick={() => handleItemClick(item)}>
+          <li
+            key={idx}
+            onClick={() => handleItemClick(item)}
+            className="dropdown-list"
+          >
             <TodoHighLighted originText={originText} target={item} />
           </li>
         ))
