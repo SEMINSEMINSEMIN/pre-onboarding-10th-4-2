@@ -1,3 +1,4 @@
+import TodoHighLighted from "./TodoHighlighted";
 import { TodoDropListPropsType } from "../types/todo";
 
 const TodoDropList: React.FC<TodoDropListPropsType> = ({
@@ -5,13 +6,14 @@ const TodoDropList: React.FC<TodoDropListPropsType> = ({
   handleItemClick,
   originText,
 }) => {
-  const recommendList = recommendResult.length
-    ? recommendResult.map((item: string, idx: number) => (
-        <li key={idx} onClick={() => handleItemClick(item)}>
-          {item}
-        </li>
-      ))
-    : "";
+  const recommendList =
+    recommendResult.length && originText
+      ? recommendResult.map((item: string, idx: number) => (
+          <li key={idx} onClick={() => handleItemClick(item)}>
+            <TodoHighLighted originText={originText} target={item} />
+          </li>
+        ))
+      : "";
 
   return <>{recommendList}</>;
 };
