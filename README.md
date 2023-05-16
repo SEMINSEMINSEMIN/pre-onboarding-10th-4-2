@@ -1,10 +1,43 @@
 # 📚 사전 과제: "Toodos"
 
+<br/>
+
+## 작업 내역 요약
+
+- 구현 목표인 "문서화"를 위해, [Create Issue Branch](https://github.com/marketplace/actions/create-issue-branch#license) 이용했습니다.
+- 자동화의 내용은 다음과 같습니다.
+  - 이슈가 생성될 때마다 이슈에 설정된 라벨/issue-이슈번호의 이름의 브랜치와, 이슈에 적은 내용, 라벨, Assignees 등을 복사한 풀리퀘스트가 자동으로 생성되도록 설정했습니다. 이때 Assignees를 지정해야 GitHub Action이 작동합니다.
+  - 브랜치에 대한 PR이 merge 되면 이슈가 자동으로 이슈가 close 됩니다.
+- issue 번호와 커밋의 연관을 더 잘 알기 위해 커밋 메시지 뒤에 `#이슈번호`를 달았습니다.
+
+## 미구현 사항
+
+- 지금은 드롭다운이 항상 보이는 상태입니다. 드롭다운을 숨기는 건 아직 구현하지 못했습니다.
+
+## 개선 사항
+
+추천 검색어 드롭다운 관련 컴포넌트 구조
+
+- Main
+  - InputTodo
+    - TodoDropDown
+      - TodoDropList
+        - TodoHighLighted
+
+무한 스크롤 등 기능 구현에 집중하다보니, 컴포넌트 구조나 최적화에 대해 제대로 고민하지 못하고 코드를 짰습니다.
+
+일단 컴포넌트 구조가 깊고 서로 연관돼 있는 state가 많고, 필요없는 state도 있을 수도 있어서 이 부분에 대해 리팩토링이 필요해 보입니다.
+
+<br>
+
+---
+
+<br>
+
 프론트엔드 채용 면접에 앞서 `사전 과제`가 있습니다.
 인터뷰에서 수정 및 구현 작업해주신 내용에 대해 질문을 드릴 예정입니다. 면접에서 편하게 답변을 해주시면 됩니다.
 
-> **Note**
-> _설명하시는 코드를 함께 볼 수 있도록 google meet에서 **화면 공유 준비**를 부탁드립니다._
+> **Note** > _설명하시는 코드를 함께 볼 수 있도록 google meet에서 **화면 공유 준비**를 부탁드립니다._
 
 ## 🎯 목표
 
@@ -12,9 +45,10 @@
 
 ## 🏠 Toodos 구조
 
-`Toodos` 앱의 폴더 구조입니다. 
+`Toodos` 앱의 폴더 구조입니다.
+
 > **Warning**
-*__별도로 전달 받으신 api token을 `.env` 파일에 추가 부탁드립니다.__*
+> _**별도로 전달 받으신 api token을 `.env` 파일에 추가 부탁드립니다.**_
 
 ```javascript
 src
@@ -41,7 +75,7 @@ src
 
 ---
 
-<br/>
+<br>
 
 ✨ 아래 3가지 `코드 리뷰`와 `기능 구현`, `문서화` 태스크를 수행 부탁드립니다.
 
@@ -61,6 +95,7 @@ src
 5. Dropdown에서 아이템 하나를 선택하면, input의 value는 초기화가 되고 아이템이 리스트에 추가되도록 구현해주세요.
 
 ### 권장
+
 - TypeScript를 적용해주시면 좋습니다.
 - Jest나 Cypress 등을 사용한 테스트 코드를 작성해주시면 더욱 좋습니다.
 
@@ -92,12 +127,12 @@ src
 
 #### Responses
 
-| Status | Messsage              | data                                                 |
-| ------ | --------------------- | ---------------------------------------------------- |
-| 200    | Ok                    | 응답 데이터 (See Payload result) |
-| 400    | Bad Request           | `details`: 상세 validation 에러 메시지               |
-| 401    | You are unauthorized. | `(인증 실패, 토큰 필요)`                             |
-| 500    | Internal Server Error | `(서버측 에러)`                                      |
+| Status | Messsage              | data                                   |
+| ------ | --------------------- | -------------------------------------- |
+| 200    | Ok                    | 응답 데이터 (See Payload result)       |
+| 400    | Bad Request           | `details`: 상세 validation 에러 메시지 |
+| 401    | You are unauthorized. | `(인증 실패, 토큰 필요)`               |
+| 500    | Internal Server Error | `(서버측 에러)`                        |
 
 <br/>
 
