@@ -91,7 +91,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
         recommendData &&
         !isLastPage &&
         recommendData.total >= MAX_SUGGESTIONS && (
-          <div ref={target} role="status">
+          <div ref={target} role="status" className="load-icon">
             <MoreIcon ariaLabel="더 많은 항목이 있습니다. 항목 로드를 위해서 스크롤을 내리세요." />
           </div>
         )
