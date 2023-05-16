@@ -1,5 +1,6 @@
 import { FaSpinner } from "react-icons/fa";
 import React, { useState, useRef, useEffect } from "react";
+import TodoDropList from "./TodoDropList";
 import { TodoDropDownPropsType } from "../types/todo";
 import { MAX_SUGGESTIONS } from "../constants";
 import { searchRecommendation } from "../api/search";
@@ -69,16 +70,14 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
     };
   }, [recommendData, isLastPage, page, target]);
 
-  const recommendList = recommendResult?.map((item: string, idx: number) => (
-    <li key={idx} onClick={() => handleDropDownClick(item)}>
-      {item}
-    </li>
-  ));
-
   return (
     <div className="dropdown-container" ref={contRef}>
       <ul>
-        {recommendList}
+        <TodoDropList
+          recommendResult={recommendResult}
+          handleItemClick={handleDropDownClick}
+          originText={recommendData?.q}
+        />
         {isLoading ? (
           <FaSpinner
             className="spinner"
