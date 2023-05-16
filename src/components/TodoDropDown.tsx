@@ -1,6 +1,7 @@
 import { FaSpinner } from "react-icons/fa";
 import React, { useState, useRef, useEffect } from "react";
 import TodoDropList from "./TodoDropList";
+import MoreIcon from "./common/MoreIcon";
 import { TodoDropDownPropsType } from "../types/todo";
 import { MAX_SUGGESTIONS } from "../constants";
 import { searchRecommendation } from "../api/search";
@@ -40,7 +41,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
         console.info("더 많은 데이터 요청");
 
         try {
-          setIsLoading(true);
+          setTimeout(() => setIsLoading(true), 100);
           const { data } = await searchRecommendation(
             recommendData.q,
             page + 1
@@ -78,20 +79,23 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
           handleItemClick={handleDropDownClick}
           originText={recommendData?.q}
         />
-        {isLoading ? (
-          <FaSpinner
-            className="spinner"
-            aria-label="Loading More Data"
-            role="status"
-          />
-        ) : (
-          inpText &&
-          recommendData &&
-          recommendData.total >= MAX_SUGGESTIONS && (
-            <li ref={target}>observe</li>
-          )
-        )}
       </ul>
+      {isLoading ? (
+        <FaSpinner
+          className="spinner"
+          aria-label="Loading More Data"
+          role="status"
+        />
+      ) : (
+        inpText &&
+        recommendData &&
+        !isLastPage &&
+        recommendData.total >= MAX_SUGGESTIONS && (
+          <div ref={target} role="status">
+            <MoreIcon ariaLabel="더 많은 항목이 있습니다. 항목 로드를 위해서 스크롤을 내리세요." />
+          </div>
+        )
+      )}
     </div>
   );
 };
