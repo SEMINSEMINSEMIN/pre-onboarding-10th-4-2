@@ -21,6 +21,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
   ({ setTodos, setFocus }, ref: Ref<HTMLInputElement>) => {
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
     const [recommendData, setRecommendData] = useState(null);
 
     useEffect(() => {
@@ -29,8 +30,16 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
 
     const showRecommendation = useCallback(async (text: string) => {
       if (text.trim()) {
-        const { data: recommendData } = await searchRecommendation(text, 1);
-        setRecommendData(recommendData);
+        try {
+          setIsSearching(true);
+          const { data: recommendData } = await searchRecommendation(text, 1);
+          setRecommendData(recommendData);
+        } catch (err) {
+          console.warn(err);
+          alert("something went wrong");
+        } finally {
+          setIsSearching(false);
+        }
       } else {
         setRecommendData(null);
       }
@@ -100,7 +109,13 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             onChange={handleInpChange}
             disabled={isLoading}
           />
-          {!isLoading ? (
+          {isSearching ? (
+            <FaSpinner
+              className="spinner search"
+              aria-label="Searching Items"
+              role="status"
+            />
+          ) : !isLoading ? (
             <button
               className="input-submit"
               type="submit"
@@ -109,7 +124,11 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
               <FaPlusCircle className="btn-plus" />
             </button>
           ) : (
-            <FaSpinner className="spinner" aria-label="Loading" role="status" />
+            <FaSpinner
+              className="spinner search"
+              aria-label="Loading"
+              role="status"
+            />
           )}
         </form>
         <TodoDropDown
