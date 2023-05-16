@@ -169,6 +169,14 @@ body {
   overflow: auto;
 }
 
+.dropdown-container .dropdown-list:hover {
+  background-color: #f2f2f2;
+}
+
+.dropdown-container .dropdown-list:active {
+  background-color: #d5f4f1;
+}
+
 .span-chunk.highlighted {
   color: #2bc9ba;
 }
