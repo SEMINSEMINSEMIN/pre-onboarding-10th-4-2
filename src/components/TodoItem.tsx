@@ -21,6 +21,7 @@ const TodoItem: React.FC<TodoItemPropsType> = ({
       setTodos((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
       alert("Something went wrong.");
     } finally {
       setInpFocus();
