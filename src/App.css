@@ -206,7 +206,27 @@ body {
 
 .dropdown-container {
   height: 164px;
+  padding: 9px 5px;
   overflow: auto;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  box-shadow: 0px 0px 1px rgba(50, 50, 50, 0.05),
+    0px 2px 4px rgba(50, 50, 50, 0.1);
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+
+.dropdown-container .dropdown-list {
+  padding: 12px 6px;
+}
+
+.dropdown-container .spinner,
+.dropdown-container .load-icon {
+  margin: 0 auto;
+}
+
+.dropdown-container .load-icon {
+  text-align: center;
 }
 
 .dropdown-container .dropdown-list:hover {
