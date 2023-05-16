@@ -8,6 +8,7 @@ import React, {
 } from "react";
 
 import TodoDropDown from "./TodoDropDown";
+import SearchIcon from "./common/SearchIcon";
 
 import { createTodo } from "../api/todo";
 import { searchRecommendation } from "../api/search";
@@ -90,6 +91,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
     return (
       <>
         <form className="form-container" onSubmit={handleSubmit}>
+          <SearchIcon className="search-icon" />
           <input
             className="input-text"
             placeholder="Add new todo..."
