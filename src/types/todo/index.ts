@@ -46,3 +46,8 @@ export type TodoDropListPropsType = {
   handleItemClick: (item: string) => Promise<void>;
   originText: string | undefined;
 };
+
+export type TodoHighLightedType = {
+  originText: string;
+  target: string;
+};
