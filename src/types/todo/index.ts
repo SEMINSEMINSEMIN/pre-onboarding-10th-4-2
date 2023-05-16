@@ -40,3 +40,9 @@ export type TodoDropDownPropsType = {
   handleDropDownClick: (item: string) => Promise<void>;
   inpText: string;
 };
+
+export type TodoDropListPropsType = {
+  recommendResult: string[];
+  handleItemClick: (item: string) => Promise<void>;
+  originText: string | undefined;
+};
