@@ -108,6 +108,10 @@ body {
   border: none;
 }
 
+.input-submit {
+  z-index: 100;
+}
+
 .btn-plus {
   color: darkcyan;
   font-size: 20px;
