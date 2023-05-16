@@ -69,10 +69,14 @@ body {
   width: calc(100% + 2px);
   height: calc(100% + 2px);
   padding-left: 42px;
+  padding-right: 42px;
   font-size: 1.4rem;
   font-weight: 400;
   border-radius: calc(0.06 * 100px);
   background-color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .input-text:hover {
