@@ -1,7 +1,5 @@
 # 📚 사전 과제: "Toodos"
 
-<br/>
-
 ## 작업 내역 요약
 
 - 구현 목표인 "문서화"를 위해, [Create Issue Branch](https://github.com/marketplace/actions/create-issue-branch#license) 이용했습니다.
