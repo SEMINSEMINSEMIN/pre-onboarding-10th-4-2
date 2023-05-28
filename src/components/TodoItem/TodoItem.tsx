@@ -1,8 +1,9 @@
-import { FaSpinner, FaTrash } from "react-icons/fa";
 import { useCallback, useState } from "react";
-
-import { deleteTodo } from "../api/todo";
-import { TodoItemPropsType } from "../types/todo";
+import DeleteIcon from "../common/DeleteIcon/DeleteIcon";
+import { deleteTodo } from "../../api/todo";
+import { TodoItemPropsType } from "../../types/todo";
+import "./TodoItem.css";
+import SpinnerIcon from "../common/SpinnerIcon/SpinnerIcon";
 
 const TodoItem: React.FC<TodoItemPropsType> = ({
   id,
@@ -34,14 +35,10 @@ const TodoItem: React.FC<TodoItemPropsType> = ({
       <div className="item-option">
         {!isLoading ? (
           <button onClick={() => handleRemoveTodo()} aria-label="Delete Item">
-            <FaTrash className="btn-trash" />
+            <DeleteIcon />
           </button>
         ) : (
-          <FaSpinner
-            className="spinner"
-            aria-label="On Deleting"
-            role="status"
-          />
+          <SpinnerIcon ariaLabel="On Deleting" />
         )}
       </div>
     </li>

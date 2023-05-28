@@ -1,0 +1,13 @@
+.header-container {
+  padding: 20px 0;
+  line-height: 1.5em;
+}
+
+.h1-text {
+  margin-bottom: 2rem;
+  font-size: 9.6rem;
+  font-weight: 600;
+  line-height: 1em;
+  color: #ececec;
+  text-align: center;
+}

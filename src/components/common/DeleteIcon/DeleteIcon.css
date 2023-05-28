@@ -1,0 +1,9 @@
+.btn-trash {
+  color: orangered;
+  font-size: 16px;
+}
+
+.btn-plus:hover,
+.btn-trash:hover {
+  opacity: 0.5;
+}

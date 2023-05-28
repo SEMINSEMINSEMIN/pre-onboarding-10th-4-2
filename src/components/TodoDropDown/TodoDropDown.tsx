@@ -1,9 +1,10 @@
-import { FaSpinner } from "react-icons/fa";
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import TodoDropList from "./TodoDropList";
-import MoreIcon from "./common/MoreIcon";
-import { RecommendDataType, TodoDropDownPropsType } from "../types/todo";
-import { searchRecommendation } from "../api/search";
+import TodoDropList from "../TodoDropList/TodoDropList";
+import MoreIcon from "../common/MoreIcon";
+import { RecommendDataType, TodoDropDownPropsType } from "../../types/todo";
+import { searchRecommendation } from "../../api/search";
+import SpinnerIcon from "../common/SpinnerIcon/SpinnerIcon";
+import "./TodoDropDown.css";
 
 const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
   recommendDataState,
@@ -76,11 +77,7 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
         />
       </ul>
       {isLoading ? (
-        <FaSpinner
-          className="spinner"
-          aria-label="Loading More Data"
-          role="status"
-        />
+        <SpinnerIcon ariaLabel="Loading More Data" iconType="center" />
       ) : (
         <div ref={target} role="status" className="load-icon">
           <MoreIcon ariaLabel="더 많은 항목이 있습니다. 항목 로드를 위해서 스크롤을 내리세요." />
