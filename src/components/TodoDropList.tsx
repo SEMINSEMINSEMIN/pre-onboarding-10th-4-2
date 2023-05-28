@@ -1,3 +1,4 @@
+import React from "react";
 import TodoHighLighted from "./TodoHighlighted";
 import { TodoDropListPropsType } from "../types/todo";
 
@@ -22,4 +23,4 @@ const TodoDropList: React.FC<TodoDropListPropsType> = ({
   return <>{recommendList}</>;
 };
 
-export default TodoDropList;
+export default React.memo(TodoDropList);

@@ -1,3 +1,5 @@
+import React from "react";
+
 export type TodoItemType = {
   title: string;
   createdAt: string;
@@ -26,17 +28,21 @@ export type TodoItemPropsType = {
   setInpFocus: SetFocusType;
 };
 
-type RecommendDataType = {
+export type RecommendDataType = {
   q: string;
-  result: string[];
-  qty: number;
   total: number;
   page: number;
   limit: number;
+  result: string[];
+};
+
+type RecommendDataStateType = {
+  recommendData: RecommendDataType;
+  setRecommendData: React.Dispatch<React.SetStateAction<RecommendDataType>>;
 };
 
 export type TodoDropDownPropsType = {
-  recommendData: RecommendDataType | null;
+  recommendDataState: RecommendDataStateType;
   handleDropDownClick: (item: string) => Promise<void>;
   inpText: string;
 };
