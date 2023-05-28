@@ -1,11 +1,5 @@
 import { FaPlusCircle, FaSpinner } from "react-icons/fa";
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  forwardRef,
-  Ref,
-} from "react";
+import React, { useCallback, useEffect, useState, forwardRef } from "react";
 
 import TodoDropDown from "./TodoDropDown";
 import SearchIcon from "./common/SearchIcon";
@@ -19,10 +13,11 @@ import { MAX_SUGGESTIONS } from "../constants";
 import { InputTodoPropsType, RecommendDataType } from "../types/todo";
 
 const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
-  ({ setTodos, setFocus }, ref: Ref<HTMLInputElement>) => {
+  ({ setTodos, setFocus }, ref: React.ForwardedRef<HTMLInputElement>) => {
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
+    const [isDropDownVisible, setIsDropDownVisible] = useState(false);
 
     const recommendInit = React.useMemo(() => {
       return {
@@ -40,6 +35,20 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
     useEffect(() => {
       setFocus();
     }, [setFocus]);
+
+    useEffect(() => {
+      function handleCilckOutside(this: HTMLElement, ev: MouseEvent) {
+        const target = ev.target as HTMLElement;
+
+        !target.matches("input") && setIsDropDownVisible(false);
+      }
+
+      document.body.addEventListener("click", handleCilckOutside);
+
+      return () => {
+        document.body.removeEventListener("click", handleCilckOutside);
+      };
+    }, []);
 
     const showRecommendation = useCallback(
       async (text: string) => {
@@ -65,6 +74,12 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
 
     const handleInpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputText(e.target.value);
+      e.target.value ? setIsDropDownVisible(true) : setIsDropDownVisible(false);
+    };
+
+    const handleInpClick = (e: React.MouseEvent<HTMLInputElement>) => {
+      const target = e.target as HTMLInputElement;
+      target.value && setIsDropDownVisible(true);
     };
 
     const handleDropDownClick = useCallback(
@@ -126,6 +141,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             ref={ref}
             value={inputText}
             onChange={handleInpChange}
+            onClick={handleInpClick}
             disabled={isLoading}
           />
           {isSearching ? (
@@ -150,7 +166,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             />
           )}
         </form>
-        {inputText && (
+        {isDropDownVisible && (
           <TodoDropDown
             recommendDataState={{ recommendData, setRecommendData }}
             handleDropDownClick={handleDropDownClick}
