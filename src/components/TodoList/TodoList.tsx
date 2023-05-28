@@ -1,5 +1,6 @@
-import TodoItem from "./TodoItem";
-import { TodoListPropsType } from "../types/todo";
+import TodoItem from "../TodoItem/TodoItem";
+import { TodoListPropsType } from "../../types/todo";
+import "./TodoList.css";
 
 const TodoList: React.FC<TodoListPropsType> = ({
   todos,

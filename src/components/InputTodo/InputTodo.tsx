@@ -1,16 +1,18 @@
 import { FaPlusCircle, FaSpinner } from "react-icons/fa";
 import React, { useCallback, useEffect, useState, forwardRef } from "react";
 
-import TodoDropDown from "./TodoDropDown";
-import SearchIcon from "./common/SearchIcon";
+import TodoDropDown from "../TodoDropDown/TodoDropDown";
+import SearchIcon from "../common/SearchIcon";
 
-import { createTodo } from "../api/todo";
-import { searchRecommendation } from "../api/search";
+import { createTodo } from "../../api/todo";
+import { searchRecommendation } from "../../api/search";
 
-import useDebounce from "../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 
-import { MAX_SUGGESTIONS } from "../constants";
-import { InputTodoPropsType, RecommendDataType } from "../types/todo";
+import { MAX_SUGGESTIONS } from "../../constants";
+import { InputTodoPropsType, RecommendDataType } from "../../types/todo";
+import "./InputTodo.css";
+import SpinnerIcon from "../common/SpinnerIcon/SpinnerIcon";
 
 const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
   ({ setTodos, setFocus }, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -145,11 +147,7 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             disabled={isLoading}
           />
           {isSearching ? (
-            <FaSpinner
-              className="spinner search"
-              aria-label="Searching Items"
-              role="status"
-            />
+            <SpinnerIcon ariaLabel="Searching Items" iconType="search" />
           ) : !isLoading ? (
             <button
               className="input-submit"

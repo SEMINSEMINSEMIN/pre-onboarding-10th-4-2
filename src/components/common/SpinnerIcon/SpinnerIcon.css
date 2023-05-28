@@ -1,0 +1,23 @@
+.spinner {
+  font-size: 20px;
+  animation: spin 2s linear infinite;
+  display: flex;
+  align-self: center;
+}
+
+.spinner.search {
+  margin-left: auto;
+}
+
+.spinner.center {
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,11 @@
+.dropdown-list {
+  padding: 12px 6px;
+}
+
+.dropdown-list:hover {
+  background-color: #f2f2f2;
+}
+
+.dropdown-list:active {
+  background-color: #d5f4f1;
+}

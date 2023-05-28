@@ -1,4 +1,5 @@
-import { TodoHighLightedType } from "../types/todo";
+import { TodoHighLightedType } from "../../types/todo";
+import "./TodoHighlighted.css";
 
 const TodoHighLighted: React.FC<TodoHighLightedType> = ({
   originText,

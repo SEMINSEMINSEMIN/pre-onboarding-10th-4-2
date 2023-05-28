@@ -1,6 +1,7 @@
 import React from "react";
-import TodoHighLighted from "./TodoHighlighted";
-import { TodoDropListPropsType } from "../types/todo";
+import TodoHighLighted from "../TodoHighlighted/TodoHighlighted";
+import { TodoDropListPropsType } from "../../types/todo";
+import "./TodoDropList.css";
 
 const TodoDropList: React.FC<TodoDropListPropsType> = ({
   recommendResult,
