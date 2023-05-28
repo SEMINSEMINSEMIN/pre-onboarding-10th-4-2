@@ -1,83 +1,78 @@
 import { FaSpinner } from "react-icons/fa";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import TodoDropList from "./TodoDropList";
 import MoreIcon from "./common/MoreIcon";
-import { TodoDropDownPropsType } from "../types/todo";
-import { MAX_SUGGESTIONS } from "../constants";
+import { RecommendDataType, TodoDropDownPropsType } from "../types/todo";
 import { searchRecommendation } from "../api/search";
 
 const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
-  recommendData,
+  recommendDataState,
   handleDropDownClick,
   inpText,
 }) => {
-  const [recommendResult, setRecommendResult] = useState<string[]>([]);
-  const [page, setPage] = useState(1);
-  const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const contRef = useRef<HTMLDivElement>(null);
-  const target = useRef(null);
+  const target = useRef<HTMLDivElement>(null);
+
+  const { recommendData, setRecommendData } = recommendDataState;
 
   useEffect(() => {
-    inpText && recommendData
-      ? setRecommendResult(recommendData.result)
-      : setRecommendResult([]);
-    setPage(1);
-    setIsLastPage(false);
-    contRef.current && contRef.current.scrollTo(0, 0);
-  }, [recommendData, inpText]);
+    if (contRef.current) {
+      const scrollTopInfo = contRef.current.scrollTop;
+      scrollTopInfo && contRef.current.scrollTo(0, 0);
+    }
+  }, [inpText]);
 
-  useEffect(() => {
-    const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
-      if (!recommendData) return;
-
-      const isTotalLessThanMax = recommendData.total < MAX_SUGGESTIONS;
-      if (isTotalLessThanMax) return;
-
+  const handleIntersection = useCallback(
+    async (entries: IntersectionObserverEntry[]) => {
       const isIntersecting = entries[0].isIntersecting;
       if (!isIntersecting) return;
 
-      if (!isLastPage) {
-        console.info("더 많은 데이터 요청");
+      const { q, page, limit, total } = recommendData;
+      const isLastPage = page * limit >= total;
+      if (isLastPage) return;
 
-        try {
-          setTimeout(() => setIsLoading(true), 100);
-          const { data } = await searchRecommendation(
-            recommendData.q,
-            page + 1
-          );
-          setIsLoading(false);
-          if (data.result.length) {
-            setPage((prevPage) => prevPage + 1);
-            setRecommendResult((prevResult) => [...prevResult, ...data.result]);
-          } else {
-            setIsLastPage(true);
-          }
-        } catch (error) {
-          setIsLoading(false);
-          console.error(error);
-          alert("something went wrong");
-        }
+      console.info("더 많은 데이터 요청");
+      try {
+        setIsLoading(true);
+        const { data }: { data: RecommendDataType } =
+          await searchRecommendation(q, page + 1);
+        setIsLoading(false);
+        setRecommendData((prev) => {
+          return {
+            ...prev,
+            page: data.page,
+            result: [...prev.result, ...data.result],
+          };
+        });
+      } catch (error) {
+        setIsLoading(false);
+        console.error(error);
+        alert("something went wrong");
       }
-    };
+    },
+    [recommendData, setRecommendData]
+  );
+
+  useEffect(() => {
+    if (!target.current) return;
 
     const options = { threshold: 0.5 };
     const observer = new IntersectionObserver(handleIntersection, options);
-
-    target.current && observer.observe(target.current);
+    observer.observe(target.current);
 
     return () => {
       observer.disconnect();
     };
-  }, [recommendData, isLastPage, page, target]);
+  }, [handleIntersection]);
 
   return (
     <div className="dropdown-container" ref={contRef}>
       <ul>
         <TodoDropList
-          recommendResult={recommendResult}
+          recommendResult={recommendData.result}
           handleItemClick={handleDropDownClick}
-          originText={recommendData?.q}
+          originText={recommendData.q}
         />
       </ul>
       {isLoading ? (
@@ -87,14 +82,9 @@ const TodoDropDown: React.FC<TodoDropDownPropsType> = ({
           role="status"
         />
       ) : (
-        inpText &&
-        recommendData &&
-        !isLastPage &&
-        recommendData.total >= MAX_SUGGESTIONS && (
-          <div ref={target} role="status" className="load-icon">
-            <MoreIcon ariaLabel="더 많은 항목이 있습니다. 항목 로드를 위해서 스크롤을 내리세요." />
-          </div>
-        )
+        <div ref={target} role="status" className="load-icon">
+          <MoreIcon ariaLabel="더 많은 항목이 있습니다. 항목 로드를 위해서 스크롤을 내리세요." />
+        </div>
       )}
     </div>
   );

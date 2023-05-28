@@ -15,35 +15,51 @@ import { searchRecommendation } from "../api/search";
 
 import useDebounce from "../hooks/useDebounce";
 
-import { InputTodoPropsType } from "../types/todo";
+import { MAX_SUGGESTIONS } from "../constants";
+import { InputTodoPropsType, RecommendDataType } from "../types/todo";
 
 const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
   ({ setTodos, setFocus }, ref: Ref<HTMLInputElement>) => {
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
-    const [recommendData, setRecommendData] = useState(null);
+
+    const recommendInit = React.useMemo(() => {
+      return {
+        q: "",
+        page: 1,
+        limit: MAX_SUGGESTIONS,
+        total: 0,
+        result: [],
+      };
+    }, []);
+
+    const [recommendData, setRecommendData] =
+      useState<RecommendDataType>(recommendInit);
 
     useEffect(() => {
       setFocus();
     }, [setFocus]);
 
-    const showRecommendation = useCallback(async (text: string) => {
-      if (text.trim()) {
-        try {
-          setIsSearching(true);
-          const { data: recommendData } = await searchRecommendation(text, 1);
-          setRecommendData(recommendData);
-        } catch (err) {
-          console.warn(err);
-          alert("something went wrong");
-        } finally {
-          setIsSearching(false);
+    const showRecommendation = useCallback(
+      async (text: string) => {
+        if (text.trim()) {
+          try {
+            setIsSearching(true);
+            const { data } = await searchRecommendation(text, 1);
+            setRecommendData(data);
+          } catch (err) {
+            console.warn(err);
+            alert("something went wrong");
+          } finally {
+            setIsSearching(false);
+          }
+        } else {
+          setRecommendData(recommendInit);
         }
-      } else {
-        setRecommendData(null);
-      }
-    }, []);
+      },
+      [recommendInit]
+    );
 
     useDebounce(inputText, showRecommendation);
 
@@ -51,22 +67,25 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
       setInputText(e.target.value);
     };
 
-    const handleDropDownClick = async (item: string) => {
-      setInputText("");
-      const newItem = { title: item };
-      try {
-        setIsLoading(true);
-        const { data } = await createTodo(newItem);
+    const handleDropDownClick = useCallback(
+      async (item: string) => {
+        setInputText("");
+        const newItem = { title: item };
+        try {
+          setIsLoading(true);
+          const { data } = await createTodo(newItem);
 
-        if (data) {
-          return setTodos((prev) => [...prev, data]);
+          if (data) {
+            return setTodos((prev) => [...prev, data]);
+          }
+        } catch (error) {
+          alert("Something went wrong.");
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        alert("Something went wrong.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      },
+      [setTodos]
+    );
 
     const handleSubmit = useCallback(
       async (e: React.FormEvent<HTMLFormElement>) => {
@@ -131,11 +150,13 @@ const InputTodo = forwardRef<HTMLInputElement, InputTodoPropsType>(
             />
           )}
         </form>
-        <TodoDropDown
-          recommendData={recommendData}
-          handleDropDownClick={handleDropDownClick}
-          inpText={inputText}
-        />
+        {inputText && (
+          <TodoDropDown
+            recommendDataState={{ recommendData, setRecommendData }}
+            handleDropDownClick={handleDropDownClick}
+            inpText={inputText}
+          />
+        )}
       </>
     );
   }
