@@ -1,5 +1,5 @@
 # 📚 사전 과제: "Toodos"
-배포 링크: https://stately-llama-5d5f25.netlify.app/
+배포 링크: https://stately-llama-5d5f25.netlify.app/ <br>
 api 요청을 위한 토큰은 공개 불가이기 때문에, 로컬 환경에서 프로젝트 동작 확인이 어렵습니다.
 
 ## 문서화
